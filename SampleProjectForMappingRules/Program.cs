@@ -3,7 +3,6 @@ using SampleProjectForMappingRules.Application.Mapping;
 using SampleProjectForMappingRules.Application.Services;
 using SampleProjectForMappingRules.Domain.Repositories;
 using SampleProjectForMappingRules.Domain.Services;
-using SampleProjectForMappingRules.Infrastructure.Db;
 using SampleProjectForMappingRules.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddScoped<IMappingRuleRepository, MappingRuleRepository>();
-builder.Services.AddAutoMapper(typeof(SyncProfile).Assembly);
+builder.Services.AddScoped<IHubSpotParadigmMapper, HubSpotParadigmMapper>();
 builder.Services.AddScoped<ISyncService, SyncService>();
 
 var app = builder.Build();

@@ -1,26 +1,27 @@
-﻿using AutoMapper;
+﻿using SampleProjectForMappingRules.Application.Dtos;
 using SampleProjectForMappingRules.Domain.Enums;
 using SampleProjectForMappingRules.Domain.Repositories;
+using SampleProjectForMappingRules.Domain.Services;
 
 namespace SampleProjectForMappingRules.Application.Mapping;
 
-public enum SyncDirection { HubSpotToParadigm, ParadigmToHubSpot }
-
-public class RuleBasedConverter<TSrc, TDest> : ITypeConverter<TSrc, TDest>
-    where TDest : new()
+public class HubSpotParadigmMapper : IHubSpotParadigmMapper
 {
     private readonly IMappingRuleRepository _repo;
 
-    public RuleBasedConverter(IMappingRuleRepository repo) => _repo = repo;
-
-    public TDest Convert(TSrc source, TDest destination, ResolutionContext context)
+    public HubSpotParadigmMapper(IMappingRuleRepository repo)
     {
-        destination ??= new TDest();
+        _repo = repo;
+    }
 
-        var entity    = (EntityName)context.Items["entity"];
-        var direction = (SyncDirection)context.Items["direction"];
-        var configId  = (Guid)context.Items["configId"];
-
+    public TDest Map<TSrc, TDest>(
+        TSrc source, 
+        EntityName entity, 
+        SyncDirection direction, 
+        Guid configId) 
+        where TDest : new()
+    {
+        var destination = new TDest();
         var rules = _repo.GetRules(configId, entity);
 
         foreach (var rule in rules)
@@ -31,11 +32,11 @@ public class RuleBasedConverter<TSrc, TDest> : ITypeConverter<TSrc, TDest>
             var srcProp = typeof(TSrc).GetProperty(rule.PropertyName);
             var dstProp = typeof(TDest).GetProperty(rule.PropertyName);
 
-            if (srcProp != null && dstProp != null && dstProp.CanWrite)
-            {
-                var value = srcProp.GetValue(source);
-                dstProp.SetValue(destination, value);
-            }
+            if (srcProp == null || dstProp == null || !dstProp.CanWrite)
+                throw new ArgumentException("Property not found or not writable: " + rule.PropertyName);
+
+            var value = srcProp.GetValue(source);
+            dstProp.SetValue(destination, value);
         }
 
         return destination;

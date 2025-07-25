@@ -31,7 +31,7 @@ public class MappingRuleRepository : IMappingRuleRepository
                 EntityName = entity,
                 HubSpotParadigmSyncConfigurationId = configId,
                 Id = Guid.Parse("E8B8F539-057F-412E-961E-AD80F36B3C63"),
-                MappingRule = HubSpotParadigmMappingRule.TwoWay,
+                MappingRule = HubSpotParadigmMappingRule.NotMap,
                 PropertyName = "Phone"
             }
         };
