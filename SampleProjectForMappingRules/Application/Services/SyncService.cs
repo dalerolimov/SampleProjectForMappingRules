@@ -14,10 +14,11 @@ public class SyncService : ISyncService
         _mapper = mapper;
     }
     
-    public ParadigmCompanyDto MapCompany(HubSpotCompanyDto hubspot, Guid configId)
+    public ParadigmCompanyDto MapCompany(HubSpotCompanyDto hubspot, ParadigmCompanyDto company, Guid configId)
     {
-        return _mapper.Map<HubSpotCompanyDto, ParadigmCompanyDto>(
+        return _mapper.Map(
             hubspot,
+            company,
             EntityName.Company,
             SyncDirection.HubSpotToParadigm,
             configId);

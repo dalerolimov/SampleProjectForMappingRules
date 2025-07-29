@@ -5,6 +5,6 @@ namespace SampleProjectForMappingRules.Domain.Services;
 
 public interface IHubSpotParadigmMapper
 {
-    TDest Map<TSrc, TDest>(TSrc source, EntityName entity, SyncDirection direction, Guid configId)
+    TDest Map<TSrc, TDest>(TSrc source, TDest destination, EntityName entity, SyncDirection direction, Guid configId)
         where TDest : new();
 }

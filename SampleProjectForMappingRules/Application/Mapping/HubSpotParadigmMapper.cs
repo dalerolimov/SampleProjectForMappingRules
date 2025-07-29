@@ -16,12 +16,12 @@ public class HubSpotParadigmMapper : IHubSpotParadigmMapper
 
     public TDest Map<TSrc, TDest>(
         TSrc source, 
+        TDest destination,
         EntityName entity, 
         SyncDirection direction, 
         Guid configId) 
         where TDest : new()
     {
-        var destination = new TDest();
         var rules = _repo.GetRules(configId, entity);
 
         foreach (var rule in rules)

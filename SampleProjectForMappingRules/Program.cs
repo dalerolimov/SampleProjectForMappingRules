@@ -28,11 +28,18 @@ app.UseHttpsRedirection();
 app.MapGet("/", (ISyncService syncService) =>
     {
         return syncService.MapCompany(new HubSpotCompanyDto
-        {
-            Address = "1234",
-            Name = "Abdu",
-            Phone = "1234567890"
-        }, Guid.Empty);
+            {
+                Address = "1234",
+                Name = "Abdu",
+                Phone = "1234567890"
+            },
+            new ParadigmCompanyDto
+            {
+                Address = "5678",
+                Name = "Abdu1",
+                Phone = "0987654321"
+            },
+            Guid.Empty);
     })
     .WithName("test");
 
