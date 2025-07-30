@@ -29,8 +29,8 @@ public class HubSpotParadigmMapper : IHubSpotParadigmMapper
             if (!IsAllowed(rule.MappingRule, direction))
                 continue;
 
-            var srcProp = typeof(TSrc).GetProperty(rule.PropertyName);
-            var dstProp = typeof(TDest).GetProperty(rule.PropertyName);
+            var srcProp = typeof(TSrc).GetPropertyByName(rule.PropertyName);
+            var dstProp = typeof(TDest).GetPropertyByName(rule.PropertyName);
 
             if (srcProp == null || dstProp == null || !dstProp.CanWrite)
                 throw new ArgumentException("Property not found or not writable: " + rule.PropertyName);

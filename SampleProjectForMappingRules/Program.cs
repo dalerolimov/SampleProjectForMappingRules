@@ -36,7 +36,7 @@ app.MapGet("/", (ISyncService syncService) =>
             new ParadigmCompanyDto
             {
                 Address = "5678",
-                Name = "Abdu1",
+                StrCompanyName = "Abdu1",
                 Phone = "0987654321"
             },
             Guid.Empty);
