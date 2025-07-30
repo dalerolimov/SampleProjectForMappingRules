@@ -27,7 +27,7 @@ app.UseHttpsRedirection();
 
 app.MapGet("/", (ISyncService syncService) =>
     {
-        return syncService.MapCompany(new HubSpotCompanyDto
+        syncService.MapCompany(new HubSpotCompanyDto
             {
                 Address = "1234",
                 Name = "Abdu",

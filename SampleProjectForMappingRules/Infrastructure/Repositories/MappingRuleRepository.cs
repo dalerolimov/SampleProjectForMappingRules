@@ -23,7 +23,7 @@ public class MappingRuleRepository : IMappingRuleRepository
                 EntityName = entity,
                 HubSpotParadigmSyncConfigurationId = configId,
                 Id = Guid.Parse("5DD8E1DF-FA27-4888-A34D-ED423035A599"),
-                MappingRule = HubSpotParadigmMappingRule.TwoWay,
+                MappingRule = HubSpotParadigmMappingRule.HubSpotToParadigm,
                 PropertyName = "Name"
             },
             new()

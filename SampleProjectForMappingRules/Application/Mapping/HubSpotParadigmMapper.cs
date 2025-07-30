@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using SampleProjectForMappingRules.Application.Dtos;
+using SampleProjectForMappingRules.Domain.Entities;
 using SampleProjectForMappingRules.Domain.Enums;
 using SampleProjectForMappingRules.Domain.Repositories;
 using SampleProjectForMappingRules.Domain.Services;
@@ -15,16 +16,13 @@ public class HubSpotParadigmMapper : IHubSpotParadigmMapper
         _repo = repo;
     }
 
-    public TDest Map<TSrc, TDest>(
+    public void Map<TSrc, TDest>(
         TSrc source,
         TDest destination,
         EntityName entity,
         SyncDirection direction,
-        Guid configId)
-        where TDest : new()
+        IEnumerable<HubSpotParadigmPropertyMappingRule> rules)
     {
-        var rules = _repo.GetRules(configId, entity);
-
         foreach (var rule in rules)
         {
             if (!IsAllowed(rule.MappingRule, direction))
@@ -43,8 +41,6 @@ public class HubSpotParadigmMapper : IHubSpotParadigmMapper
             var value = srcProp.GetValue(source);
             dstProp.SetValue(destination, value);
         }
-
-        return destination;
     }
 
     private static bool IsAllowed(HubSpotParadigmMappingRule rule, SyncDirection dir) =>

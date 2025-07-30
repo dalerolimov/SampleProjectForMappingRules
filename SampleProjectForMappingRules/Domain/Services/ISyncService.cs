@@ -4,5 +4,5 @@ namespace SampleProjectForMappingRules.Domain.Services;
 
 public interface ISyncService
 {
-    ParadigmCompanyDto MapCompany(HubSpotCompanyDto hubspot, ParadigmCompanyDto company, Guid configId);
+    void MapCompany(HubSpotCompanyDto hubspot, ParadigmCompanyDto company, Guid configId);
 }
