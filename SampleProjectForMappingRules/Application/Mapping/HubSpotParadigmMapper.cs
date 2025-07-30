@@ -1,4 +1,5 @@
-﻿using SampleProjectForMappingRules.Application.Dtos;
+﻿using System.Reflection;
+using SampleProjectForMappingRules.Application.Dtos;
 using SampleProjectForMappingRules.Domain.Enums;
 using SampleProjectForMappingRules.Domain.Repositories;
 using SampleProjectForMappingRules.Domain.Services;
@@ -15,11 +16,11 @@ public class HubSpotParadigmMapper : IHubSpotParadigmMapper
     }
 
     public TDest Map<TSrc, TDest>(
-        TSrc source, 
+        TSrc source,
         TDest destination,
-        EntityName entity, 
-        SyncDirection direction, 
-        Guid configId) 
+        EntityName entity,
+        SyncDirection direction,
+        Guid configId)
         where TDest : new()
     {
         var rules = _repo.GetRules(configId, entity);
@@ -29,8 +30,12 @@ public class HubSpotParadigmMapper : IHubSpotParadigmMapper
             if (!IsAllowed(rule.MappingRule, direction))
                 continue;
 
-            var srcProp = typeof(TSrc).GetPropertyByName(rule.PropertyName);
-            var dstProp = typeof(TDest).GetPropertyByName(rule.PropertyName);
+            PropertyInfo? srcProp = null;
+            PropertyInfo? dstProp = null;
+            if (source is IMappingEntityDto srcDto)
+                srcProp = srcDto.GetPropertyByName(srcDto, rule.PropertyName);
+            if (destination is IMappingEntityDto destDto)
+                dstProp = destDto.GetPropertyByName(destDto, rule.PropertyName);
 
             if (srcProp == null || dstProp == null || !dstProp.CanWrite)
                 throw new ArgumentException("Property not found or not writable: " + rule.PropertyName);

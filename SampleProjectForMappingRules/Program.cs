@@ -31,13 +31,13 @@ app.MapGet("/", (ISyncService syncService) =>
             {
                 Address = "1234",
                 Name = "Abdu",
-                Phone = "1234567890"
+                City = "1234567890"
             },
             new ParadigmCompanyDto
             {
                 Address = "5678",
                 StrCompanyName = "Abdu1",
-                Phone = "0987654321"
+                City = "0987654321"
             },
             Guid.Empty);
     })
